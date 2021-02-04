@@ -1,7 +1,7 @@
 import { Component, h } from '@stencil/core';
 import { container } from '../../singleton/di';
 
-import { USER_SEARCH_THUNK, IUserSearchThunk } from '../../interfaces/user-search-thunk';
+import { USER_SEARCH_THUNK_PROVIDER, IUserSearchThunk } from '../../interfaces/user-search-thunk';
 import { CallRecordingSearchThunk } from '../../actions/call-recording-search';
 
 import { USER_SERVICE_PROVIDER, IUserService } from '../../interfaces/user-service';
@@ -11,7 +11,7 @@ import { CALL_RECORDING_SUPERVISOR_SERVICE, ICallRecordingSupervisorService } fr
 import { OssmosisCallRecordingSupervisorService } from '../../services/ossmosis-call-recording-supervisor-service';
 
 container
-  .bind<IUserSearchThunk>(USER_SEARCH_THUNK)
+  .bind<IUserSearchThunk>(USER_SEARCH_THUNK_PROVIDER)
   .to(CallRecordingSearchThunk);
 
 container
