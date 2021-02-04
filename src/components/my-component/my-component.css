@@ -1,0 +1,7 @@
+:host {
+  display: block;
+}
+
+.small-icon {
+  --mdc-icon-size: 16px;
+}

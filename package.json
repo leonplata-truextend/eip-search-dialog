@@ -1,0 +1,48 @@
+{
+  "name": "eip-search-dialog",
+  "version": "0.0.1",
+  "description": "Stencil Component Starter",
+  "main": "dist/index.cjs.js",
+  "module": "dist/custom-elements/index.js",
+  "es2015": "dist/esm/index.mjs",
+  "es2017": "dist/esm/index.mjs",
+  "types": "dist/custom-elements/index.d.ts",
+  "collection": "dist/collection/collection-manifest.json",
+  "collection:main": "dist/collection/index.js",
+  "unpkg": "dist/eip-search-dialog/eip-search-dialog.esm.js",
+  "files": [
+    "dist/",
+    "loader/"
+  ],
+  "scripts": {
+    "build": "stencil build --docs",
+    "start": "stencil build --dev --watch --serve",
+    "test": "stencil test --spec --e2e",
+    "test.watch": "stencil test --spec --e2e --watchAll",
+    "generate": "stencil generate"
+  },
+  "dependencies": {
+    "@material/mwc-button": "^0.20.0",
+    "@material/mwc-checkbox": "^0.20.0",
+    "@material/mwc-circular-progress": "^0.20.0",
+    "@material/mwc-dialog": "^0.20.0",
+    "@material/mwc-formfield": "^0.20.0",
+    "@material/mwc-icon": "^0.20.0",
+    "@material/mwc-list": "^0.20.0",
+    "@material/mwc-menu": "^0.20.0",
+    "@material/mwc-radio": "^0.20.0",
+    "@material/mwc-textfield": "^0.20.0",
+    "@reduxjs/toolkit": "^1.5.0",
+    "@stencil/core": "^2.0.1",
+    "@stencil/redux": "^0.2.0",
+    "@types/node": "^14.14.22",
+    "@types/redux-logger": "^3.0.8",
+    "autobind-decorator": "^2.4.0",
+    "inversify": "^5.0.5",
+    "inversify-inject-decorators": "^3.1.0",
+    "redux": "^4.0.5",
+    "redux-logger": "^3.0.6",
+    "reflect-metadata": "^0.1.13"
+  },
+  "license": "MIT"
+}
