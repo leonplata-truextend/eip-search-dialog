@@ -6,46 +6,46 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
-    interface EipSetupDependencies {
-    }
-    interface MyComponent {
+    interface EipSearchDialog {
         "open": () => Promise<void>;
+    }
+    interface EipSetupDependencies {
     }
 }
 declare global {
+    interface HTMLEipSearchDialogElement extends Components.EipSearchDialog, HTMLStencilElement {
+    }
+    var HTMLEipSearchDialogElement: {
+        prototype: HTMLEipSearchDialogElement;
+        new (): HTMLEipSearchDialogElement;
+    };
     interface HTMLEipSetupDependenciesElement extends Components.EipSetupDependencies, HTMLStencilElement {
     }
     var HTMLEipSetupDependenciesElement: {
         prototype: HTMLEipSetupDependenciesElement;
         new (): HTMLEipSetupDependenciesElement;
     };
-    interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
-    }
-    var HTMLMyComponentElement: {
-        prototype: HTMLMyComponentElement;
-        new (): HTMLMyComponentElement;
-    };
     interface HTMLElementTagNameMap {
+        "eip-search-dialog": HTMLEipSearchDialogElement;
         "eip-setup-dependencies": HTMLEipSetupDependenciesElement;
-        "my-component": HTMLMyComponentElement;
     }
 }
 declare namespace LocalJSX {
+    interface EipSearchDialog {
+    }
     interface EipSetupDependencies {
     }
-    interface MyComponent {
-    }
     interface IntrinsicElements {
+        "eip-search-dialog": EipSearchDialog;
         "eip-setup-dependencies": EipSetupDependencies;
-        "my-component": MyComponent;
     }
 }
 export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            "eip-search-dialog": LocalJSX.EipSearchDialog & JSXBase.HTMLAttributes<HTMLEipSearchDialogElement>;
             "eip-setup-dependencies": LocalJSX.EipSetupDependencies & JSXBase.HTMLAttributes<HTMLEipSetupDependenciesElement>;
-            "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
         }
     }
 }

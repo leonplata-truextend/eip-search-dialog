@@ -1,7 +1,6 @@
 import { Component, State, Method, h } from '@stencil/core';
-import { store, Unsubscribe } from '@stencil/redux';
-import initialStore from '../../state/store';
 import { lazyInject } from '../../singleton/di';
+import { store, Unsubscribe, StateMapper } from '../../singleton/store';
 import { USER_SEARCH_THUNK, IUserSearchThunk } from '../../interfaces/user-search-thunk';
 import '@material/mwc-dialog';
 import '@material/mwc-textfield';
@@ -10,14 +9,20 @@ import '@material/mwc-checkbox';
 import '@material/mwc-list';
 import '@material/mwc-icon';
 
-store.setStore(initialStore);
+const stateMapper: StateMapper<EipSearchDialog> = ({
+  searchResults: {
+    loading,
+  },
+}) => ({
+  loading,
+});
 
 @Component({
-  tag: 'my-component',
-  styleUrl: 'my-component.css',
+  tag: 'eip-search-dialog',
+  styleUrl: 'eip-search-dialog.css',
   shadow: true,
 })
-export class EipUSerSearchDialog {
+export class EipSearchDialog {
 
   @lazyInject(USER_SEARCH_THUNK)
   userSearchThunk: IUserSearchThunk;
@@ -33,10 +38,7 @@ export class EipUSerSearchDialog {
   retrieveInitialData!: IUserSearchThunk['retrieveInitialData'];
 
   connectedCallback() {
-    this.unsubscribe = store.mapStateToProps(this, state => {
-      const { searchResults: { loading } } = state;
-      return { loading };
-    });
+    this.unsubscribe = store.mapStateToProps(this, stateMapper);
     store.mapDispatchToProps(this, {
       retrieveInitialData: this.userSearchThunk.retrieveInitialData,
     });

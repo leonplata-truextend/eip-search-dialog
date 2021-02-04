@@ -19,8 +19,8 @@ Stencil components are just Web Components, so they work in any major framework 
 To start building a new web component using Stencil, clone this repo to a new directory:
 
 ```bash
-git clone https://github.com/ionic-team/stencil-component-starter.git my-component
-cd my-component
+git clone https://github.com/ionic-team/stencil-component-starter.git eip-search-dialog
+cd eip-search-dialog
 git remote rm origin
 ```
 
@@ -61,15 +61,15 @@ The first step for all three of these strategies is to [publish to NPM](https://
 
 ### Script tag
 
-- Put a script tag similar to this `<script src='https://unpkg.com/my-component@0.0.1/dist/my-component.esm.js'></script>` in the head of your index.html
+- Put a script tag similar to this `<script src='https://unpkg.com/eip-search-dialog@0.0.1/dist/eip-search-dialog.esm.js'></script>` in the head of your index.html
 - Then you can use the element anywhere in your template, JSX, html etc
 
 ### Node Modules
-- Run `npm install my-component --save`
-- Put a script tag similar to this `<script src='node_modules/my-component/dist/my-component.esm.js'></script>` in the head of your index.html
+- Run `npm install eip-search-dialog --save`
+- Put a script tag similar to this `<script src='node_modules/eip-search-dialog/dist/eip-search-dialog.esm.js'></script>` in the head of your index.html
 - Then you can use the element anywhere in your template, JSX, html etc
 
 ### In a stencil-starter app
-- Run `npm install my-component --save`
-- Add an import to the npm packages `import my-component;`
+- Run `npm install eip-search-dialog --save`
+- Add an import to the npm packages `import eip-search-dialog;`
 - Then you can use the element anywhere in your template, JSX, html etc
