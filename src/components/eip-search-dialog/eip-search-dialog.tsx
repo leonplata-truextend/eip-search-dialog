@@ -1,5 +1,6 @@
 import { Component, State, Method, h } from '@stencil/core';
 import { lazyInject } from '../../singleton/di';
+import { setLanguage } from '../../singleton/language';
 import { store, Unsubscribe, StateMapper, DispatchMapper } from '../../singleton/store';
 import { USER_SEARCH_THUNK_PROVIDER, IUserSearchThunk } from '../../interfaces/user-search-thunk';
 import { Localize, localizeFallback } from '../../interfaces/intl';
@@ -85,7 +86,7 @@ export class EipSearchDialog {
         )}
       </mwc-list>
       <mwc-textfield
-        label={'hello'}
+        label={this.localize('hello')}
         value={this.text}
         onInput={event => this.handleInput(event)}
       >
@@ -101,6 +102,11 @@ export class EipSearchDialog {
       >
       </mwc-checkbox>
       {this.loading}
+      <div>
+        <h1>Language</h1>
+        <mwc-button raised onClick={() => setLanguage('en')}>English</mwc-button>
+        <mwc-button raised onClick={() => setLanguage('es')}>Spanish</mwc-button>
+      </div>
     </div>
     );
   }
