@@ -1,9 +1,9 @@
 mwc-button {
-  --mdc-theme-primary: #e9437a;
+  --mdc-theme-primary: var(--primary-color, #e9437a);
   --mdc-theme-on-primary: white;
 }
 
 mwc-textfield {
-  --mdc-theme-primary: #e9437a;
+  --mdc-theme-primary: var(--primary-color, #e9437a);
   --mdc-theme-on-primary: white;
 }
