@@ -1,15 +1,17 @@
 import { Component, State, Method, h } from '@stencil/core';
 import { boundMethod } from 'autobind-decorator';
+
 import { lazyInject } from '../../singleton/di';
 import { setLanguage } from '../../singleton/language';
 import { store, Unsubscribe, StateMapper, DispatchMapper } from '../../singleton/store';
-import { Localize, localizeFallback } from '../../interfaces/intl';
 
+import { Localize, localizeFallback } from '../../interfaces/intl';
 import { User } from '../../interfaces/entities/user';
 import { USER_SEARCH_THUNK_PROVIDER, IUserSearchThunk } from '../../interfaces/user-search-thunk';
 import { USER_SERVICE_PROVIDER, IUserService } from '../../interfaces/user-service';
 
 import locales from './locales.json';
+
 import { TextField } from '@material/mwc-textfield';
 import '@material/mwc-dialog';
 import '@material/mwc-button';
@@ -146,6 +148,7 @@ export class EipSearchDialog {
     const {
       localize,
       text,
+      users,
       loading,
       listenLocalize,
       listenTextInput,
@@ -160,7 +163,7 @@ export class EipSearchDialog {
       />
       <mwc-dialog open>
         <mwc-list>
-          {this.users.map(user => (
+          {users.map(user => (
             <mwc-list-item twoline>
               <span>{localize('item')} {user.name}</span>
               <span slot="secondary">
