@@ -5,7 +5,15 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { IntlResources, Localize } from "./interfaces/intl";
+import { Formats } from "intl-messageformat";
 export namespace Components {
+    interface EipIntl {
+        "format": Partial<Formats>;
+        "language": string;
+        "resources": IntlResources;
+        "useKeyIfMissing": boolean;
+    }
     interface EipSearchDialog {
         "open": () => Promise<void>;
     }
@@ -13,6 +21,12 @@ export namespace Components {
     }
 }
 declare global {
+    interface HTMLEipIntlElement extends Components.EipIntl, HTMLStencilElement {
+    }
+    var HTMLEipIntlElement: {
+        prototype: HTMLEipIntlElement;
+        new (): HTMLEipIntlElement;
+    };
     interface HTMLEipSearchDialogElement extends Components.EipSearchDialog, HTMLStencilElement {
     }
     var HTMLEipSearchDialogElement: {
@@ -26,16 +40,25 @@ declare global {
         new (): HTMLEipSetupDependenciesElement;
     };
     interface HTMLElementTagNameMap {
+        "eip-intl": HTMLEipIntlElement;
         "eip-search-dialog": HTMLEipSearchDialogElement;
         "eip-setup-dependencies": HTMLEipSetupDependenciesElement;
     }
 }
 declare namespace LocalJSX {
+    interface EipIntl {
+        "format"?: Partial<Formats>;
+        "language"?: string;
+        "onLocalize"?: (event: CustomEvent<Localize>) => void;
+        "resources"?: IntlResources;
+        "useKeyIfMissing"?: boolean;
+    }
     interface EipSearchDialog {
     }
     interface EipSetupDependencies {
     }
     interface IntrinsicElements {
+        "eip-intl": EipIntl;
         "eip-search-dialog": EipSearchDialog;
         "eip-setup-dependencies": EipSetupDependencies;
     }
@@ -44,6 +67,7 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            "eip-intl": LocalJSX.EipIntl & JSXBase.HTMLAttributes<HTMLEipIntlElement>;
             "eip-search-dialog": LocalJSX.EipSearchDialog & JSXBase.HTMLAttributes<HTMLEipSearchDialogElement>;
             "eip-setup-dependencies": LocalJSX.EipSetupDependencies & JSXBase.HTMLAttributes<HTMLEipSetupDependenciesElement>;
         }

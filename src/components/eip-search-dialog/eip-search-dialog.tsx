@@ -2,12 +2,16 @@ import { Component, State, Method, h } from '@stencil/core';
 import { lazyInject } from '../../singleton/di';
 import { store, Unsubscribe, StateMapper, DispatchMapper } from '../../singleton/store';
 import { USER_SEARCH_THUNK_PROVIDER, IUserSearchThunk } from '../../interfaces/user-search-thunk';
+import { Localize, localizeFallback } from '../../interfaces/intl';
+import locales from './locales.json';
 import '@material/mwc-dialog';
 import '@material/mwc-textfield';
 import '@material/mwc-button';
 import '@material/mwc-checkbox';
 import '@material/mwc-list';
 import '@material/mwc-icon';
+
+console.log('==', locales);
 
 const stateMapper: StateMapper<EipSearchDialog> = ({
   searchResults: {
@@ -25,7 +29,10 @@ const dipatchMapper: DispatchMapper<IUserSearchThunk, EipSearchDialog> = ({
 
 @Component({
   tag: 'eip-search-dialog',
-  styleUrl: 'eip-search-dialog.css',
+  styleUrls: [
+    '../default-theme.css',
+    'eip-search-dialog.css',
+  ],
   shadow: true,
 })
 export class EipSearchDialog {
@@ -38,6 +45,9 @@ export class EipSearchDialog {
 
   @State()
   text: string = '';
+
+  @State()
+  localize: Localize = localizeFallback;
 
   unsubscribe!: Unsubscribe;
 
@@ -64,13 +74,14 @@ export class EipSearchDialog {
   render() {
     return (
     <div>
+      <eip-intl onLocalize={event => this.localize = event.detail} resources={locales}></eip-intl>
       <mwc-list>
         {[1, 2, 3, 4].map(item =>
           <mwc-list-item twoline>
-            <span>Item {item}</span>
+            <span>{this.localize('item')} {item}</span>
             <span slot="secondary">
               <mwc-icon class="small-icon">shopping_cart</mwc-icon>
-              Secondary line
+              {this.localize('secondary')}
             </span>
           </mwc-list-item>
         )}
@@ -78,7 +89,7 @@ export class EipSearchDialog {
       <mwc-textfield
         label={'hello'}
         value={this.text}
-        onInput={(event) => this.handleInput(event)}
+        onInput={event => this.handleInput(event)}
       >
       </mwc-textfield>
       <mwc-button

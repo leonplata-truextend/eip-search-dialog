@@ -5,3 +5,9 @@
 .small-icon {
   --mdc-icon-size: 16px;
 }
+
+
+
+* {
+  background: red;
+}

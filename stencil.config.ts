@@ -1,4 +1,5 @@
 import { Config } from '@stencil/core';
+import json from '@rollup/plugin-json';
 
 export const config: Config = {
   namespace: 'eip-search-dialog',
@@ -18,4 +19,9 @@ export const config: Config = {
       serviceWorker: null, // disable service workers
     },
   ],
+  rollupPlugins: {
+    before: [
+      json(),
+    ]
+  }
 };
