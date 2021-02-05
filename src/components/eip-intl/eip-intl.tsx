@@ -7,6 +7,7 @@ import { boundMethod } from 'autobind-decorator';
 @Component({
   tag: 'eip-intl',
   shadow: true,
+  styleUrl: 'eip-intl.css'
 })
 export class EipIntlElement {
 

@@ -1,6 +1,5 @@
-export interface User {
-  name: string;
-}
+import { User } from './entities/user';
+
 
 export interface IUserService {
   getUsers(): Promise<User[]>;
