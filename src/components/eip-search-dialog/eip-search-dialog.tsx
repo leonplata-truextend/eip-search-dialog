@@ -1,4 +1,5 @@
 import { Component, State, Method, h } from '@stencil/core';
+import { boundMethod } from 'autobind-decorator';
 import { lazyInject } from '../../singleton/di';
 import { setLanguage } from '../../singleton/language';
 import { store, Unsubscribe, StateMapper, DispatchMapper } from '../../singleton/store';
@@ -9,8 +10,8 @@ import { USER_SEARCH_THUNK_PROVIDER, IUserSearchThunk } from '../../interfaces/u
 import { USER_SERVICE_PROVIDER, IUserService } from '../../interfaces/user-service';
 
 import locales from './locales.json';
+import { TextField } from '@material/mwc-textfield';
 import '@material/mwc-dialog';
-import '@material/mwc-textfield';
 import '@material/mwc-button';
 import '@material/mwc-checkbox';
 import '@material/mwc-list';
@@ -65,13 +66,13 @@ export class EipSearchDialog {
   //#region Component State
 
   @State()
+  localize: Localize = localizeFallback;
+
+  @State()
   loading: number;
 
   @State()
   text: string = '';
-
-  @State()
-  localize: Localize = localizeFallback;
 
   @State()
   users: User[] = [];
@@ -118,46 +119,86 @@ export class EipSearchDialog {
 
   //----------------------------------------------------------------------------
 
+  //#region Event Listeners
+
+  @boundMethod
+  listenLocalize(event: CustomEvent<Localize>) {
+    this.localize = event.detail;
+  }
+
+  @boundMethod
+  listenTextInput(event: Event) {
+    this.text = (event.target as TextField).value;
+  }
+
+  @boundMethod
+  listenAlertButtonClick() {
+    alert(this.text);
+  }
+
+  //#endregion
+
+  //----------------------------------------------------------------------------
+
   //#region Template
 
   render() {
+    const {
+      localize,
+      text,
+      loading,
+      listenLocalize,
+      listenTextInput,
+      listenAlertButtonClick,
+    } = this;
+
     return (
     <div>
-      <eip-intl onLocalize={event => this.localize = event.detail} resources={locales}></eip-intl>
+      <eip-intl
+        onLocalize={listenLocalize}
+        resources={locales}
+      />
       <mwc-dialog open>
         <mwc-list>
           {this.users.map(user => (
             <mwc-list-item twoline>
-              <span>{this.localize('item')} {user.name}</span>
+              <span>{localize('item')} {user.name}</span>
               <span slot="secondary">
                 <mwc-icon class="small-icon">tag_faces</mwc-icon>
-                {this.localize('secondary')}
+                {localize('secondary')}
               </span>
-            </mwc-list-item>),
-            (<li role="separator"></li>)
-          )}
+            </mwc-list-item>
+          ))}
         </mwc-list>
         <mwc-textfield
-          label={this.localize('hello')}
-          value={this.text}
-          onInput={event => this.text = event.target.value}
+          label={localize('hello')}
+          value={text}
+          onInput={listenTextInput}
         >
         </mwc-textfield>
         <mwc-button
           raised
-          onClick={() => alert(this.text)}
+          onClick={listenAlertButtonClick}
         >
-          {this.localize('continue')}
+          {localize('continue')}
         </mwc-button>
         <mwc-checkbox
-          checked={this.loading}
-        >
-        </mwc-checkbox>
-        {this.loading}
+          checked={loading}
+        />
         <div>
           <h1>Language</h1>
-          <mwc-button raised onClick={() => setLanguage('en')}>English</mwc-button>
-          <mwc-button raised onClick={() => setLanguage('es')}>Spanish</mwc-button>
+          <mwc-button
+            raised
+            onClick={() => setLanguage('en')}
+          >
+            English
+          </mwc-button>
+          <mwc-button
+            raised
+            onClick={() => setLanguage('es')}
+          >
+            Spanish
+          </mwc-button>
         </div>
       </mwc-dialog>
     </div>
