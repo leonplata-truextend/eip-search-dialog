@@ -9,8 +9,7 @@ import { IntlResources, Localize } from "./interfaces/intl";
 import { Formats } from "intl-messageformat";
 export namespace Components {
     interface EipIntl {
-        "format": Partial<Formats>;
-        "language": string;
+        "formats": Partial<Formats>;
         "resources": IntlResources;
         "useKeyIfMissing": boolean;
     }
@@ -47,8 +46,7 @@ declare global {
 }
 declare namespace LocalJSX {
     interface EipIntl {
-        "format"?: Partial<Formats>;
-        "language"?: string;
+        "formats"?: Partial<Formats>;
         "onLocalize"?: (event: CustomEvent<Localize>) => void;
         "resources"?: IntlResources;
         "useKeyIfMissing"?: boolean;

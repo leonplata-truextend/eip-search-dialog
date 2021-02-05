@@ -1,6 +1,12 @@
 {
   "en": {
     "secondary": "Secondary line",
-    "item": "Item"
+    "item": "Item",
+    "continue": "Continue"
+  },
+  "es": {
+    "secondary": "Linea secundaria",
+    "item": "Cosa",
+    "continue": "Continuar"
   }
 }

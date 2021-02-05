@@ -11,8 +11,6 @@ import '@material/mwc-checkbox';
 import '@material/mwc-list';
 import '@material/mwc-icon';
 
-console.log('==', locales);
-
 const stateMapper: StateMapper<EipSearchDialog> = ({
   searchResults: {
     loading,
@@ -96,7 +94,7 @@ export class EipSearchDialog {
         raised
         onClick={() => alert(this.text)}
       >
-        Continue
+        {this.localize('continue')}
       </mwc-button>
       <mwc-checkbox
         checked={this.loading}
