@@ -23,7 +23,7 @@ type IndexMapState = { [index: string]: boolean };
 
 type ErrorMapState = { [index: string]: ErrorState };
 
-export interface SearchResultsState {
+export interface SearchResultState {
   loading: number;
   error?: ErrorState;
   searchText: string;

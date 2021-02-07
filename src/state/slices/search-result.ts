@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { SearchResultsState } from './states';
+import { SearchResultState } from '../../interfaces/state/search-result-state';
 
-const initialState: SearchResultsState = {
+const initialState: SearchResultState = {
   loading: 0,
   error: undefined,
   searchText: '',

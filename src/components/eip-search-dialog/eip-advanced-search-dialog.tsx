@@ -3,12 +3,11 @@ import { boundMethod } from 'autobind-decorator';
 
 import { lazyInject } from '../../singleton/di';
 import { setLanguage } from '../../singleton/language';
-import { store, Unsubscribe, StateMapper, DispatchMapper } from '../../singleton/store';
+import { Unsubscribe, StateMapper } from '../../singleton/store';
 
+import { SearchItemState } from '../../interfaces/state/search-result-state';
 import { Localize, localizeFallback } from '../../interfaces/intl';
-import { User } from '../../interfaces/entities/user';
-import { USER_SEARCH_THUNK_PROVIDER, IUserSearchThunk } from '../../interfaces/user-search-thunk';
-import { USER_SERVICE_PROVIDER, IUserService } from '../../interfaces/user-service';
+import { AdvancedSearchService } from '../../interfaces/services/common/advanced-search-service';
 
 import locales from './locales.json';
 
@@ -23,18 +22,14 @@ import '@material/mwc-icon';
 
 //#region Redux Mappers
 
-const stateMapper: StateMapper<EipSearchDialog> = ({
+const stateMapper: StateMapper<EipAdvancedSearchDialog> = ({
   searchResults: {
     loading,
+    results,
   },
 }) => ({
   loading,
-});
-
-const dipatchMapper: DispatchMapper<IUserSearchThunk, EipSearchDialog> = ({
-  retrieveInitialData,
-}) => ({
-  retrieveInitialData,
+  results,
 });
 
 //#endregion
@@ -42,24 +37,27 @@ const dipatchMapper: DispatchMapper<IUserSearchThunk, EipSearchDialog> = ({
 //------------------------------------------------------------------------------
 
 @Component({
-  tag: 'eip-search-dialog',
+  tag: 'eip-advanced-search-dialog',
   styleUrls: [
     '../default-theme.css',
-    'eip-search-dialog.css',
+    'eip-advanced-search-dialog.css',
   ],
   shadow: true,
 })
-export class EipSearchDialog {
+export class EipAdvancedSearchDialog {
 
   //----------------------------------------------------------------------------
 
   //#region Injected Services
 
-  @lazyInject(USER_SEARCH_THUNK_PROVIDER)
-  protected userSearchThunk: IUserSearchThunk;
+  @lazyInject(LOCALIZE_SERVICE_PROVIDER)
+  private readonly localizeService: LocalizeService;
 
-  @lazyInject(USER_SERVICE_PROVIDER)
-  protected userService: IUserService;
+  @lazyInject(STORE_SERVICE_PROVIDER)
+  private readonly storeService: StoreService,
+
+  /** Parent element will inject */
+  private readonly advancedSearchService: AdvancedSearchService;
 
   //#endregion
 
@@ -71,23 +69,15 @@ export class EipSearchDialog {
   localize: Localize = localizeFallback;
 
   @State()
-  loading: number;
+  loading: number = 0;
 
   @State()
   text: string = '';
 
   @State()
-  users: User[] = [];
+  results: SearchItemState[] = [];
 
-  //#endregion
-
-  //----------------------------------------------------------------------------
-
-  //#region Attached Method Declarations
-
-  unsubscribe!: Unsubscribe;
-
-  retrieveInitialData!: IUserSearchThunk['retrieveInitialData'];
+  subscriptions: Unsubscribe[];
 
   //#endregion
 
@@ -96,14 +86,14 @@ export class EipSearchDialog {
   //#region LifeCycle Hooks
 
   connectedCallback() {
-    this.unsubscribe = store.mapStateToProps(this, stateMapper);
-    store.mapDispatchToProps(this, dipatchMapper);
-    this.userService.getUsers()
-      .then(users => this.users = users);
+    this.subscriptions.push(
+      this.storeService.mapStateToProps(this, stateMapper),
+      this.localizeService.subscribe(this.listenLocalize),
+    );
   }
 
   disconnectedCallback() {
-    this.unsubscribe();
+    this.subscriptions.forEach(unsubscribe => unsubscribe());
   }
 
   //#endregion
@@ -114,7 +104,7 @@ export class EipSearchDialog {
 
   @Method()
   async open() {
-    this.retrieveInitialData();
+    this.advancedSearchService.retrieveInitialData();
   }
 
   //#endregion
@@ -124,8 +114,8 @@ export class EipSearchDialog {
   //#region Event Listeners
 
   @boundMethod
-  listenLocalize(event: CustomEvent<Localize>) {
-    this.localize = event.detail;
+  listenLocalize({ buildLocalize }) {
+    this.localize = buildLocalize(locales);
   }
 
   @boundMethod
@@ -146,32 +136,29 @@ export class EipSearchDialog {
 
   render() {
     const {
-      localize,
       text,
-      users,
+      results,
       loading,
-      listenLocalize,
+      localize,
       listenTextInput,
       listenAlertButtonClick,
     } = this;
 
+    const renderItem = (item: SearchItemState) => (
+      <mwc-list-item twoline>
+        <span>{localize('item')} {item.content}</span>
+        <span slot="secondary">
+          <mwc-icon class="small-icon">tag_faces</mwc-icon>
+          {localize('secondary')}
+        </span>
+      </mwc-list-item>
+    ); 
+
     return (
     <div>
-      <eip-intl
-        onLocalize={listenLocalize}
-        resources={locales}
-      />
       <mwc-dialog open>
         <mwc-list>
-          {users.map(user => (
-            <mwc-list-item twoline>
-              <span>{localize('item')} {user.name}</span>
-              <span slot="secondary">
-                <mwc-icon class="small-icon">tag_faces</mwc-icon>
-                {localize('secondary')}
-              </span>
-            </mwc-list-item>
-          ))}
+          {results.map(renderItem)}
         </mwc-list>
         <mwc-textfield
           label={localize('hello')}

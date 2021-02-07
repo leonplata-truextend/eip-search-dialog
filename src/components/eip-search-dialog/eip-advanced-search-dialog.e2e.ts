@@ -1,10 +1,10 @@
 import { newE2EPage } from '@stencil/core/testing';
 
-describe('eip-search-dialog', () => {
+describe('eip-advanced-search-dialog', () => {
   it('renders', async () => {
     const page = await newE2EPage();
 
-    await page.setContent('<eip-search-dialog></eip-search-dialog>');
+    await page.setContent('<eip-advanced-search-dialog></eip-advanced-search-dialog>');
     const element = await page.find('eip-search-dialog');
     expect(element).toHaveClass('hydrated');
   });
@@ -12,9 +12,9 @@ describe('eip-search-dialog', () => {
   it('renders changes to the name data', async () => {
     const page = await newE2EPage();
 
-    await page.setContent('<eip-search-dialog></eip-search-dialog>');
-    const component = await page.find('eip-search-dialog');
-    const element = await page.find('eip-search-dialog >>> div');
+    await page.setContent('<eip-advanced-search-dialog></eip-advanced-search-dialog>');
+    const component = await page.find('eip-advanced-search-dialog');
+    const element = await page.find('eip-advanced-search-dialog >>> div');
     expect(element.textContent).toEqual(`Hello, World! I'm `);
 
     component.setProperty('first', 'James');

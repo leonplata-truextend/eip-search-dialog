@@ -1,8 +1,12 @@
-import { injectable } from 'inversify';
-import { IUserService } from '../interfaces/user-service';
+import { injectable, Container } from 'inversify';
+import { USER_SERVICE_PROVIDER, IUserService } from '../../interfaces/services/user-service';
 
 @injectable()
 export class OssmosisUserService implements IUserService {
+
+  static bindToContainer(container: Container) {
+    container.bind<IUserService>(USER_SERVICE_PROVIDER).to(this);
+  }
 
   async getUsers() {
     return [

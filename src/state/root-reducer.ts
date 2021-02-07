@@ -1,7 +1,8 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import searchResultsReducer from './search-results';
+import searchResultsReducer from './slices/search-result';
+import { AppState } from '../interfaces/state'
 
-const rootReducer = combineReducers({
+const rootReducer = combineReducers<AppState>({
   searchResults: searchResultsReducer,
 });
 
